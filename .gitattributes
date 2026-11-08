@@ -1,0 +1,3 @@
+# Generated engine bundles contain upstream multiline shader literals.
+# Review source changes under _viewer; preserve compiled bytes unchanged.
+assets/lib/3dxr/runtime/** -diff linguist-generated=true

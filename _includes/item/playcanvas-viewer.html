@@ -1,0 +1,14 @@
+{% comment %}
+    Public derivatives only. relative_url supports both repository subpaths
+    and externally hosted HTTPS objects. Never insert preservation-master URLs.
+{% endcomment %}
+<div class="cb-viewer" data-3dxr-viewer
+    data-objectid="{{ page.objectid | escape }}"
+    data-title="{{ page.title | escape }}"
+    data-description="{{ page.description | escape }}"
+    data-viewer-type="{{ page.viewer_type | escape }}"
+    data-content="{{ page.object_location | relative_url | escape }}"
+    {% if page.viewer_lod %}data-lod="{{ page.viewer_lod | relative_url | escape }}"{% endif %}>
+    <p role="status">Loading 3D viewer…</p>
+</div>
+<noscript><p>The interactive 3D viewer requires JavaScript. Object metadata remains available below.</p></noscript>

@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<section class="cb-3dxr-home">
+    <div class="container">
+        <h1>{{ site.title | escape }}</h1>
+        <p class="lead">{{ site.description | escape }}</p>
+        <a class="btn btn-lg" href="{{ '/browse.html' | relative_url }}">Explore the collection</a>
+    </div>
+</section>
+<div class="container py-4">
+    {{ content }}
+    {% include feature/gallery.html %}
+</div>

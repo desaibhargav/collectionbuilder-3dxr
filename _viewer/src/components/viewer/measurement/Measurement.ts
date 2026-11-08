@@ -1,0 +1,92 @@
+import { defaultMeasurementStyle, type MeasurementStyle } from "./measurementStyle";
+import { BoundingBox, Vec3 } from "playcanvas";
+
+export interface MeasurementRecord {
+  id: number; name: string; visible: boolean; saved: boolean; points: readonly Vec3[];
+}
+interface MeasurementSnapshot { records: MeasurementRecord[]; style: MeasurementStyle }
+
+export class Measurement {
+  private snapshots: MeasurementSnapshot[] = [{ records: [], style: defaultMeasurementStyle }];
+  private cursor = 0;
+  private nextId = 1;
+  private readonly committed = new Map<number, MeasurementRecord>();
+  get records(): readonly MeasurementRecord[] { return this.snapshots[this.cursor]!.records; }
+  get style(): MeasurementStyle { return this.snapshots[this.cursor]!.style; }
+  get segments(): readonly (readonly Vec3[])[] { return this.records.map(record => record.points); }
+  get visibleSegments(): readonly (readonly Vec3[])[] { return this.records.filter(record => record.visible).map(record => record.points); }
+  get points(): readonly Vec3[] { return this.records.at(-1)?.points ?? []; }
+  get distance(): number | null { return this.points.length === 2 ? this.points[0]!.distance(this.points[1]!) : null; }
+  get canUndo() { return this.cursor > 0; }
+  get canRedo() { return this.cursor + 1 < this.snapshots.length; }
+  add(point: Vec3, additional = false) {
+    if (this.points.length === 2) {
+      if (additional) this.change([...this.records, this.create([point.clone()])]);
+    } else if (!this.records.length) this.change([this.create([point.clone()])]);
+    else this.change([...this.records.slice(0, -1), { ...this.records.at(-1)!, points: [...this.points, point.clone()] }]);
+  }
+  save(id: number, name: string) {
+    const previous = this.records.find(record => record.id === id);
+    if (!name.trim() || previous?.points.length !== 2) return;
+    const saved = this.committed.get(id);
+    if (previous.saved && previous.name === name.trim() && saved && previous.points.every((point, i) => point.equals(saved.points[i]!))) return;
+    this.change(this.records.map(record => record.id === id
+      ? { ...record, name: name.trim(), saved: true } : record));
+    this.committed.set(id, this.records.find(record => record.id === id)!);
+  }
+  moveEndpoint(id: number, index: number, point: Vec3) {
+    const record = this.records.find(record => record.id === id);
+    const previous = record?.points[index];
+    if (!previous || previous.equals(point)) return;
+    this.change(this.records.map(item => item.id === id ? { ...item,
+      points: item.points.map((value, i) => i === index ? point.clone() : value) } : item));
+  }
+  remove(id: number) {
+    if (this.records.some(record => record.id === id)) this.change(this.records.filter(record => record.id !== id));
+  }
+  clear() { if (this.records.length) this.change([]); }
+  discardUnsaved() {
+    const next = this.records.flatMap(record => {
+      if (!record.saved) return [];
+      const saved = this.committed.get(record.id);
+      return [saved && record.points.some((point, i) => !point.equals(saved.points[i]!)) ? { ...record, points: saved.points } : record];
+    });
+    if (next.length === this.records.length && next.every((record, i) => record === this.records[i])) return false;
+    this.change(next); return true;
+  }
+  rename(id: number, name: string) {
+    const value = name.trim();
+    if (value && this.records.find(record => record.id === id)?.name !== value) {
+      this.change(this.records.map(record => record.id === id ? { ...record, name: value } : record));
+    }
+  }
+  setVisible(id: number, visible: boolean) {
+    if (this.records.find(record => record.id === id)?.visible !== visible) {
+      this.change(this.records.map(record => record.id === id ? { ...record, visible } : record));
+    }
+  }
+  setStyle(style: MeasurementStyle) {
+    if (style.lineWidth !== this.style.lineWidth || style.fontSize !== this.style.fontSize) this.change([...this.records], style);
+  }
+  undo() { if (this.canUndo) this.cursor--; }
+  redo() { if (this.canRedo) this.cursor++; }
+  bounds(id?: number): BoundingBox | null {
+    const points = this.records.filter(record => record.visible && (id === undefined || record.id === id)).flatMap(record => record.points);
+    if (!points.length) return null;
+    const min = points[0]!.clone(), max = min.clone();
+    for (const point of points) { min.min(point); max.max(point); }
+    const bounds = new BoundingBox(); bounds.setMinMax(min, max); return bounds;
+  }
+  private create(points: readonly Vec3[]): MeasurementRecord {
+    const id = this.nextId++;
+    return { id, name: `Measurement ${id}`, visible: true, saved: false, points };
+  }
+  private change(points: MeasurementRecord[], style = this.style) {
+    this.snapshots.splice(++this.cursor);
+    this.snapshots.push({ records: points, style });
+  }
+}
+
+export function formatDistance(value: number): string {
+  return new Intl.NumberFormat(undefined, { maximumSignificantDigits: 5 }).format(value);
+}

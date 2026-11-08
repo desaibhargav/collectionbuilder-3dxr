@@ -158,3 +158,19 @@ When given a task:
 5. **Test that changes follow the data-driven architecture** — if you're editing `_includes/` or `_layouts/`, verify a config file cannot accomplish the same goal
 
 For questions about CollectionBuilder framework itself, the user can consult the [official documentation](https://collectionbuilder.github.io/cb-docs/) or [discussion forum](https://github.com/CollectionBuilder/collectionbuilder.github.io/discussions).
+
+## 3D / XR extension
+
+- Keep CollectionBuilder metadata/search/browse logic authoritative. The one `3dxr`
+  item layout delegates rendering and editing to the precompiled shared viewer.
+- Curators need only Jekyll. `_viewer/` is excluded developer source; do not add
+  Node compilation, derivative processing, databases or API services to routine
+  website publication. The developer build must remain reproducible.
+- Publish only the explicitly approved public sample derivatives. Never copy
+  preservation masters, authorization manifests, credentials or proprietary assets.
+- Preserve shared mesh/splat/desktop/XR behavior, draft discard, history and
+  session-local Save semantics. Do not imply persistent editing or hardware
+  performance from emulator results.
+- Test minified generated item pages with real browser interaction on both
+  formats, domain-root and repository-path URLs, streaming, cross-tool workflows,
+  capture and XR lifecycle. Keep existing third-party licenses and provenance.

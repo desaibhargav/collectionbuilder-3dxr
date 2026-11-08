@@ -1,0 +1,76 @@
+import { ViewportLayout } from "./viewports/ViewportLayout";
+import { Application } from "@playcanvas/react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { Artifact } from "../../api/artifacts";
+import { MeshViewer } from "./MeshViewer";
+import { SplatViewer } from "./SplatViewer";
+import { SelectionControls } from "./selection/SelectionControls";
+import type { SelectionHandle, SelectionTool } from "./selection/types";
+import { ViewerRenderPolicy } from "./ViewerRenderPolicy";
+import { ImmersiveControls } from "./xr/ImmersiveControls";
+import { SegmentWorkspaces } from "./segments/SegmentWorkspaces";
+
+export type ViewerStatus = { loading: boolean; progress: number; error: string | null };
+
+export function ArtifactViewer({ artifact }: { artifact: Artifact }) {
+  const frame = useRef<HTMLElement>(null);
+  const [status, setStatus] = useState<ViewerStatus>({ loading: true, progress: 0, error: null });
+  const [fullscreen, setFullscreen] = useState(false);
+  const [selection, setSelection] = useState<SelectionHandle | null>(null);
+  const workspaces = useMemo(() => selection ? new SegmentWorkspaces(selection) : null, [selection]);
+  const [tool, setTool] = useState<SelectionTool>("navigate");
+  const [immersive, setImmersive] = useState(false);
+  function changeTool(next: SelectionTool) { setTool(next); }
+
+  useEffect(() => {
+    const updateFullscreen = () => setFullscreen(document.fullscreenElement === frame.current);
+    document.addEventListener("fullscreenchange", updateFullscreen);
+    return () => document.removeEventListener("fullscreenchange", updateFullscreen);
+  }, []);
+
+  async function toggleFullscreen() {
+    if (document.fullscreenElement) await document.exitFullscreen();
+    else await frame.current?.requestFullscreen();
+  }
+
+  return (
+    <section ref={frame} className="viewer-frame has-selection-tools" data-immersive={immersive} tabIndex={0} aria-label={`${artifact.title} 3D viewer`}
+      onClickCapture={event => {
+        if ((event.target as HTMLElement).closest(".selection-toolbar button, .selection-actions button, .viewer-tree button, .viewer-toolbar button, .viewport-label")) frame.current?.focus({ preventScroll: true });
+      }}
+      onPointerDownCapture={event => {
+        if (!(event.target as HTMLElement).closest("button, input, select, textarea")) frame.current?.focus({ preventScroll: true });
+      }}
+      onKeyDown={event => {
+        if (event.repeat || event.ctrlKey || event.metaKey || event.altKey || (event.target as HTMLElement).closest("input:not([type=range]), textarea, select, [contenteditable]:not([contenteditable=false])")) return;
+        if (event.key.toLowerCase() === "q" || event.key === "Escape") {
+          event.preventDefault(); frame.current?.focus({ preventScroll: true }); changeTool("navigate");
+        }
+      }}>
+      <div className="viewer-toolbar">
+        <span>{artifact.type === "mesh" ? "Mesh" : "Gaussian splat"}</span>
+      </div>
+      <SelectionControls handle={selection} workspaces={workspaces} tool={tool} onToolChange={changeTool} disabled={immersive || status.loading || Boolean(status.error)} captureName={artifact.title} />
+      <div className="viewer-canvas">
+        <Application graphicsDeviceOptions={{ antialias: artifact.type === "mesh", xrCompatible: true }}>
+          <ViewerRenderPolicy scope={frame} handle={selection} workspaces={workspaces} tool={tool} splat={artifact.type === "splat"} />
+          {artifact.type === "mesh" ? <MeshViewer url={artifact.contentUrl} onStatus={setStatus} onSelectionReady={setSelection} /> :
+            <SplatViewer url={artifact.contentUrl} lodUrl={artifact.lodUrl} onStatus={setStatus} onSelectionReady={setSelection} />}
+        </Application>
+      </div>
+      {selection && <ViewportLayout handle={selection} />}
+      {status.loading && <div className="viewer-loading" role="status"><span>Loading 3D asset</span><progress value={status.progress} max={1} /></div>}
+      {status.error && <div className="viewer-error" role="alert">{status.error}</div>}
+      <div className="viewer-footer">
+        <button type="button" className="viewer-fullscreen-button" aria-label={fullscreen ? "Exit fullscreen" : "Fullscreen"}
+          title={fullscreen ? "Exit fullscreen" : "Fullscreen"} onClick={() => void toggleFullscreen()}>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            {fullscreen ? <path d="M9 3v6H3m12-6v6h6M3 15h6v6m12-6h-6v6" /> :
+              <path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6" />}
+          </svg>
+        </button>
+        {selection && workspaces && <ImmersiveControls handle={selection} workspaces={workspaces}
+        tool={tool} onToolChange={changeTool} onActive={setImmersive} />}</div>
+    </section>
+  );
+}

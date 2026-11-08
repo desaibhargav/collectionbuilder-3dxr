@@ -1,0 +1,35 @@
+{
+    "name": "collectionbuilder-3dxr-viewer",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "engines": {
+        "node": ">=24 <25"
+    },
+    "scripts": {
+        "build": "tsc --noEmit -p tsconfig.json && vite build",
+        "test": "vitest run"
+    },
+    "dependencies": {
+        "@playcanvas/react": "0.11.5",
+        "playcanvas": "2.23.3",
+        "react": "19.2.8",
+        "react-colorful": "5.8.1",
+        "react-dom": "19.2.8",
+        "three": "0.185.0",
+        "three-mesh-bvh": "0.9.15",
+        "zod": "4.4.3"
+    },
+    "devDependencies": {
+        "@types/react": "19.2.18",
+        "@types/react-dom": "19.2.4",
+        "@types/three": "0.185.0",
+        "@vitejs/plugin-react": "6.0.5",
+        "typescript": "7.0.2",
+        "vite": "8.2.1",
+        "vitest": "4.1.10",
+        "puppeteer": "25.8.0",
+        "iwer": "2.8.0",
+        "@iwer/sem": "2.8.0"
+    }
+}

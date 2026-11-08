@@ -16,4 +16,9 @@ Gemfile.lock
 
 # Ignore objects directory to avoid committing binary files (other than demo files)
 # if you would like to commit your objects to github, delete the line below!
-objects/
+objects/*
+!objects/scattering-skull/
+!objects/sakura-garden/
+_viewer/node_modules
+_viewer/*.tsbuildinfo
+!objects/3dxr-sources.md
