@@ -11,6 +11,10 @@ for ordinary website builds.
 1. Supply prepared **public derivatives**, never preservation masters.
 2. Put files under `objects/`, or host them at HTTPS URLs allowing cross-origin
    requests. Preserve the complete directory structure of streamed SOG bundles.
+   The starter `.gitignore` permits only the approved sample directories under
+   `objects/`. Add an explicit exception such as `!objects/my-public-model/` for
+   each additional derivative directory you intend to publish. This prevents
+   accidentally committing unrelated/private objects.
 3. Copy `_data/3dxr-metadata.csv`, edit its records and set `_config.yml`'s
    `metadata` to your new filename without `.csv`.
 4. Configure the site identity, `url` and `baseurl` in `_config.yml`.

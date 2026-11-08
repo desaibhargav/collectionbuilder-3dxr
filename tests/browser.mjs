@@ -120,7 +120,12 @@ try {
         await session.send('Browser.setDownloadBehavior', { behavior: 'allow', downloadPath: output, eventsEnabled: true });
         const download = new Promise(resolve => session.on('Browser.downloadProgress', event => { if (event.state === 'completed') resolve(); }));
         await click('.capture-actions', 'Download with annotations');
-        await Promise.race([download, new Promise((_, reject) => setTimeout(() => reject(Error('PNG download timed out')), 20000))]);
+        let downloadTimeout;
+        try {
+            await Promise.race([download, new Promise((_, reject) => {
+                downloadTimeout = setTimeout(() => reject(Error('PNG download timed out')), 20000);
+            })]);
+        } finally { clearTimeout(downloadTimeout); }
         await page.goto(`${base}/browse.html`); await page.waitForSelector('#browseItems .card');
         console.log('PASS', id, 'select/save/paint → view/save → section/save → measure/save → annotate/save → four-view PNG → teardown');
     }
