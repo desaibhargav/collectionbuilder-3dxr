@@ -10,5 +10,8 @@ cloud-fields: site.data.theme.locations-fields
 
 ## Browse Locations
 
-Use this word cloud visualization to browse locations.
-Word size is determined by frequency and all words link to a corresponding collection search.
+Browse place-name labels below. Larger labels occur more often in the collection;
+click a label to find its objects. For geographic positions, use the Map page.
+
+Both sample objects use Luddy Hall as **demonstration metadata**, not their original
+capture location.
