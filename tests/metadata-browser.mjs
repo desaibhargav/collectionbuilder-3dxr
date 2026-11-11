@@ -50,6 +50,7 @@ try {
         await new Promise(resolve => setTimeout(resolve, 300));
         await page.screenshot({ path: `${output}/map-${index}.png`, fullPage: true });
         await page.click('.leaflet-popup-close-button');
+        await page.waitForSelector('.leaflet-popup-content', { hidden: true });
     }
     assert.deepEqual([...places].sort(), ['Luddy Hall', 'Myles Brand Hall']);
     await page.goto(`${base}/items/scattering-skull.html`, { waitUntil: 'domcontentloaded' });
