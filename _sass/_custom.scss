@@ -6,15 +6,17 @@
 // Embedded viewer styles, scoped to avoid changing CollectionBuilder controls.
 // Adapted from mesh-splat-portal-web 44c9728 (Apache-2.0).
 .cb-viewer {
+    // Use whichever dimension is limiting: page width or space below the title.
+    width: min(100%, max(0px, calc((var(--cb-viewer-available-height, 60svh) - 1rem) * 1.8)));
+    margin-inline: auto;
     --charcoal: #222; --frame: #414141; --blue-gray: #708491;
     --gold: #d7bc77; --line: #d7d7d2;
     font-family: "Trebuchet MS", Verdana, Arial, sans-serif;
     font-size: 16px; line-height: normal;
     *, *::before, *::after { box-sizing: border-box; }
     button, input, select, textarea { font: inherit; line-height: normal; }
-// Preserve the portal's 1224 × 680 proportions as the fluid page grows.
-// Existing minimum heights keep tool panels usable on narrower screens.
-.viewer-frame { --viewer-footer-height: 42px; position: relative; width: 100%; aspect-ratio: 9 / 5; min-height: 680px; overflow: hidden; border: 1px solid #505050; border-radius: 4px; color: #e8e8e8; background: #181818; }
+// Preserve the portal's 1224 × 680 proportions without forcing page scrolling.
+.viewer-frame { --viewer-footer-height: 42px; position: relative; width: 100%; aspect-ratio: 9 / 5; min-height: 0; overflow: hidden; border: 1px solid #505050; border-radius: 4px; color: #e8e8e8; background: #181818; }
 .viewer-frame:fullscreen { width: 100vw; height: 100vh; border: 0; border-radius: 0; }
 .viewer-canvas { position: absolute; inset: 42px 0 var(--viewer-footer-height); }
 .viewer-canvas canvas { display: block; width: 100% !important; height: 100% !important; }
@@ -98,7 +100,6 @@
   .catalog-filter-bar { align-items: flex-start; flex-direction: column; gap: .35rem; }
   .artifact-filters { width: 100%; }
   .artifact-filters label { flex: 1; text-align: center; }
-  .viewer-frame { min-height: 520px; }
   .viewer-heading { align-items: start; flex-direction: column; }
 }
 @media (max-width: 480px) {
