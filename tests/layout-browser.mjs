@@ -23,7 +23,12 @@ try {
             await page.evaluate(() => window.scrollTo(0, 0));
             await page.waitForFunction(() => {
                 const frame = document.querySelector('.viewer-frame').getBoundingClientRect();
-                return frame.width > 0 && frame.bottom <= innerHeight;
+                const viewer = document.querySelector('[data-3dxr-viewer]');
+                const top = viewer.getBoundingClientRect().top + scrollY;
+                const available = parseFloat(viewer.style.getPropertyValue('--cb-viewer-available-height'));
+                return Math.abs((visualViewport?.height ?? innerHeight) - innerHeight) < 1
+                    && Math.abs(available - (innerHeight - top)) < 1
+                    && frame.width > 0 && frame.bottom <= innerHeight;
             });
             const size = await page.$eval('.viewer-frame', frame => {
                 const rect = frame.getBoundingClientRect();
@@ -35,6 +40,7 @@ try {
             assert(Math.abs(size.left - (width-size.width)/2) < 2, 'Viewer is not centered');
             assert(!size.overflow, 'Horizontal overflow');
             assert(size.width <= 1224.5, 'Viewer exceeds original portal width');
+            if (width === 2560) assert(Math.abs(size.width - 1224) < 1, 'Large-screen viewer should match original portal size');
             await page.screenshot({ path: `${output}/${asset}-${width}.png` });
             console.log('PASS', asset, `${width}×${height}`, size);
         }
