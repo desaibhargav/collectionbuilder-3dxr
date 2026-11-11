@@ -79,6 +79,44 @@ require network access; a fully offline XR package is not claimed.
 - CollectionBuilder's existing browse/search scripts and config CSVs remain intact.
 - `_viewer/` contains excluded developer source; see its README for rebuilding.
 
+## Publication and viewer updates
+
+The GitHub Actions workflow at `.github/workflows/pages.yml` is an addition made
+by this 3D/XR extension. The inherited template revision did not contain a Pages
+workflow. It runs on pushes to `main` or manual dispatch, builds Jekyll, and deploys
+`_site` to GitHub Pages. Select GitHub Actions in the repository's Pages settings.
+
+**Jekyll does not compile React/TypeScript.** It generates the collection pages
+and copies the committed viewer resources into the generated site. In the browser,
+the compiled viewer mounts inside the item layout's container. CSV/configuration
+changes need only the Jekyll build; viewer source or dependency changes require
+the developer build before publication.
+
+`_viewer/` is our extension's developer-source convention, not a directory required
+by CollectionBuilder. It is explicitly excluded in `_config.yml`. Compiled output
+belongs in `assets/lib/3dxr/runtime/`; scoped styles belong in `_sass/_custom.scss`.
+CollectionBuilder's `CONTRIBUTING.md` directs project technical documentation to
+`docs/`, so this document explains the integration and
+[`_viewer/README.md`](../_viewer/README.md) supplies the build instructions.
+
+When changing the viewer:
+
+1. Use Node 24 and run `npm ci`, `npm test`, and `npm run build` under `_viewer/`.
+   The build checks TypeScript and compiles the production JavaScript, workers,
+   chunks and imported resources.
+2. Build Jekyll and test the generated site using the browser checks below,
+   including root and repository-subpath URLs. Recheck physical headset behavior
+   for XR changes; emulation alone cannot establish it.
+3. Commit the source, any changed lockfile, and regenerated runtime files together.
+   Preserve third-party notices and update them when dependencies change.
+4. Push the reviewed changes; the Pages workflow publishes those committed files.
+
+The Pages workflow does not currently rebuild or check whether the viewer bundle
+matches its source. A source-only change will therefore leave the published viewer
+unchanged. Updates to the original mesh-splat portal repository are not automatically
+synchronized into this template either. Follow the provenance and adaptation notes
+in `_viewer/README.md` when updating the copied viewer.
+
 ## Verification
 
 Build production Jekyll output and serve it over HTTP before running browser tests.

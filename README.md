@@ -28,6 +28,10 @@ See [3D/XR integration and metadata](docs/3dxr.md),
 [viewer source and reproducible build](_viewer/README.md), and
 [example provenance](objects/3dxr-sources.md).
 
+Viewer developers must rebuild and commit the compiled bundle after changing
+React/TypeScript or its dependencies. Jekyll does not compile these sources; see
+the [publication and update procedure](docs/3dxr.md#publication-and-viewer-updates).
+
 Save actions keep edits for the current browser viewing session. Persistent or
 shared editing is not included. XR availability depends on HTTPS and browser/device
 support. Existing hardware performance is not established by automated emulation.

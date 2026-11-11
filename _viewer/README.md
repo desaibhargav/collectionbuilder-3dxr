@@ -16,6 +16,13 @@ npm run build
 
 Commit the resulting runtime files along with source changes. Vite uses relative
 chunk/worker/image URLs so the bundle works at a domain root or repository path.
+**Rebuild after every viewer source or dependency change.** Jekyll and the Pages
+Action only copy the committed bundle; they do not compile this directory or check
+that the bundle matches its source. Source-only commits do not update the viewer
+seen by visitors. This directory is our extension's addition, not an upstream
+CollectionBuilder requirement. See the
+[publication and update procedure](../docs/3dxr.md#publication-and-viewer-updates)
+for the complete developer workflow and verification steps.
 Viewer styles are scoped under `.cb-viewer` in `_sass/_custom.scss` to follow
 CollectionBuilder's customization convention. Rebuild Jekyll after changing them.
 
