@@ -1,8 +1,7 @@
 # CollectionBuilder 3D / XR
 
 An independent CollectionBuilder-CSV-based template for mesh and Gaussian-splat
-collections, with the existing PlayCanvas viewer's desktop tools and immersive
-AR/VR. CollectionBuilder continues to supply metadata, browsing, search and page
+collections, with the tools and immersive AR/VR while CollectionBuilder supplies metadata, browsing, search and page
 generation. Prepared public derivatives are the inputs; asset processing is outside
 this repository.
 
