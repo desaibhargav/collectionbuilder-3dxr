@@ -3,6 +3,14 @@
     This allows you to override any CollectionBuilder or Bootstrap CSS without modifying the base theme files directly.
 */
 
+// Match the original portal's centered page and responsive gutters. A fluid
+// container stretches the fixed-height viewer across ultrawide screens.
+.cb-3dxr-item {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 2.25rem clamp(1rem, 4vw, 3rem);
+}
+
 // Embedded viewer styles, scoped to avoid changing CollectionBuilder controls.
 // Adapted from mesh-splat-portal-web 44c9728 (Apache-2.0).
 .cb-viewer {
