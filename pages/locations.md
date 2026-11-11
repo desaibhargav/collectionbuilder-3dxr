@@ -13,5 +13,5 @@ cloud-fields: site.data.theme.locations-fields
 Browse place-name labels below. Larger labels occur more often in the collection;
 click a label to find its objects. For geographic positions, use the Map page.
 
-Both sample objects use Luddy Hall as **demonstration metadata**, not their original
-capture location.
+The samples use Myles Brand Hall and Luddy Hall at IU Bloomington as
+**demonstration metadata**, not their original capture locations.

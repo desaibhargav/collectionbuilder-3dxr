@@ -14,15 +14,21 @@ await page.setViewport({ width: 1400, height: 1000 });
 page.setDefaultTimeout(20000);
 page.on('pageerror', error => errors.push(error.message));
 try {
+    for (const [place, title] of [['Myles Brand Hall', 'Scattering Skull'], ['Luddy Hall', 'Sakura Garden']]) {
+        await page.goto(`${base}/locations.html`);
+        const label = '#cloud-div-location a';
+        await page.waitForSelector(label);
+        assert.equal(await page.$$eval(label, elements => elements.length), 2);
+        const link = await page.evaluateHandle((selector, place) => [...document.querySelectorAll(selector)]
+            .find(element => element.textContent.toLowerCase().includes(place.toLowerCase())), label, place);
+        await link.asElement().click();
+        await page.waitForSelector('#browseItems .card');
+        assert.equal(await page.$$eval('#browseItems .card', cards => cards.length), 1);
+        assert.match(await page.$eval('#browseItems', element => element.textContent), new RegExp(title));
+    }
     await page.goto(`${base}/locations.html`);
-    const label = '#cloud-div-location a';
-    await page.waitForSelector(label);
-    assert.match(await page.$eval(label, element => element.textContent), /Luddy Hall/i);
+    await page.waitForSelector('#cloud-div-location a');
     await page.screenshot({ path: `${output}/locations.png`, fullPage: true });
-    await page.click(label);
-    await page.waitForSelector('#browseItems .card');
-    assert.equal(await page.$$eval('#browseItems .card', cards => cards.length), 2);
-    assert.match(decodeURIComponent(page.url()), /location:Luddy Hall/i);
     await page.goto(`${base}/timeline.html`);
     assert.equal(await page.$$eval('#y2026 .timeline-thumb', nodes => nodes.length), 2);
     await page.screenshot({ path: `${output}/timeline.png`, fullPage: true });
@@ -30,22 +36,27 @@ try {
     await page.waitForSelector('.leaflet-marker-icon');
     const geo = await page.evaluate(async base => (await fetch(`${base}/assets/data/geodata.json`)).json(), base);
     assert.equal(geo.features.length, 2);
-    for (const feature of geo.features) assert.deepEqual(feature.geometry.coordinates, [-86.52302, 39.17298]);
-    // CB uses singleMarkerMode: individual records also have cluster styling.
-    await page.click('.marker-cluster');
-    await page.waitForFunction(() => [...document.querySelectorAll('.leaflet-marker-icon')]
-        .some(element => /cluster of 1 items/.test(element.textContent)));
-    const marker = await page.evaluateHandle(() => [...document.querySelectorAll('.leaflet-marker-icon')]
-        .find(element => /cluster of 1 items/.test(element.textContent)));
-    await marker.asElement().click();
-    await page.waitForSelector('.leaflet-popup-content');
-    assert.match(await page.$eval('.leaflet-popup-content', element => element.textContent), /Luddy Hall/i);
-    await page.screenshot({ path: `${output}/map.png`, fullPage: true });
+    assert.deepEqual(geo.features.map(feature => feature.geometry.coordinates).sort(),
+        [[-86.52316, 39.17198], [-86.52302, 39.17298]].sort());
+    // Native map auto-framing should show two independent, clickable markers.
+    await page.waitForFunction(() => document.querySelectorAll('.leaflet-marker-icon').length === 2);
+    const places = new Set();
+    for (let index = 0; index < 2; index++) {
+        const markers = await page.$$('.leaflet-marker-icon');
+        await markers[index].click();
+        await page.waitForSelector('.leaflet-popup-content');
+        const text = await page.$eval('.leaflet-popup-content', element => element.textContent);
+        places.add(text.includes('Myles Brand Hall') ? 'Myles Brand Hall' : text.includes('Luddy Hall') ? 'Luddy Hall' : 'Unknown');
+        await new Promise(resolve => setTimeout(resolve, 300));
+        await page.screenshot({ path: `${output}/map-${index}.png`, fullPage: true });
+        await page.click('.leaflet-popup-close-button');
+    }
+    assert.deepEqual([...places].sort(), ['Luddy Hall', 'Myles Brand Hall']);
     await page.goto(`${base}/items/scattering-skull.html`, { waitUntil: 'domcontentloaded' });
     assert.match(await page.$eval('#item-metadata', element => element.textContent), /2026-11-07T21:32:03-05:00/);
     assert.match(await page.$eval('#item-metadata', element => element.textContent), /not the original capture location/);
     assert.deepEqual(errors, []);
-    console.log('PASS location cloud → filtered collection, two timeline records, map cluster/popup and demo timestamp');
+    console.log('PASS two locations → distinct filtered records, separate map pins/popups, timeline and demo timestamp');
 } catch (error) {
     await page.screenshot({ path: `${output}/failure.png`, fullPage: true });
     throw error;

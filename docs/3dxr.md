@@ -107,15 +107,17 @@ replace physical headset testing.
 
 ## Demonstration geographic and temporal metadata
 
-Both sample records use Luddy Hall, Indiana University Bloomington, and
+The skull uses Myles Brand Hall and Sakura uses Luddy Hall, both at Indiana
+University Bloomington. Both records use
 `2026-11-07T21:32:03-05:00` (America/Indiana/Indianapolis) for demonstration.
 These values are explicitly **not original scan provenance**. The standard `date`
 field contains `2026-11-07` for the native year-grouped Timeline; the added
 `demo_recorded_at` field preserves the time and offset on item pages.
 
 Locations groups place-name labels by frequency and links to filtered browsing;
-Map plots latitude/longitude and clusters the two co-located samples.
+Map plots latitude/longitude at the two distinct demonstration locations.
 Coordinates are approximate building-centre coordinates, not surveyed positions.
-Address reference: https://luddywww.sites.iu.edu/about/contact.html
-Coordinate reference: https://mapcarta.com/W630774103 (OpenStreetMap-based).
+Address reference: https://luddy.iu.edu/about/contact.html
+Coordinate references (OpenStreetMap-based): https://mapcarta.com/W630774103
+and https://mapcarta.com/W154762733.
 Replace/remove the demo fields and labels when supplying real collection metadata.
