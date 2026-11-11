@@ -13,6 +13,7 @@ try {
     const page = await browser.newPage(), errors = [];
     await page.setCacheEnabled(false);
     page.on('pageerror', error => errors.push(error.message));
+    page.setDefaultTimeout(60000);
     for (const asset of ['scattering-skull', 'sakura-garden']) {
         await page.setViewport({ width: 1400, height: 1000 });
         await page.goto(`${base}/items/${asset}.html`);
@@ -33,6 +34,7 @@ try {
             assert(Math.abs(size.width / size.height - 1.8) < .01, 'Viewer lost 9:5 proportions');
             assert(Math.abs(size.left - (width-size.width)/2) < 2, 'Viewer is not centered');
             assert(!size.overflow, 'Horizontal overflow');
+            assert(size.width <= 1224.5, 'Viewer exceeds original portal width');
             await page.screenshot({ path: `${output}/${asset}-${width}.png` });
             console.log('PASS', asset, `${width}×${height}`, size);
         }

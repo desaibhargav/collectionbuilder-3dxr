@@ -121,3 +121,13 @@ Address reference: https://luddy.iu.edu/about/contact.html
 Coordinate references (OpenStreetMap-based): https://mapcarta.com/W630774103
 and https://mapcarta.com/W154762733.
 Replace/remove the demo fields and labels when supplying real collection metadata.
+
+## Item layout
+
+Items use the original mesh/splat portal's centered 1320px page with responsive
+gutters (1224px viewer width on large screens). The viewer retains a 9:5 ratio
+and shrinks when needed to fit the space below the actual collection header and
+item heading. Metadata remains below the viewer in the centered page column.
+Native ResizeObserver/viewport events update the available height only on layout
+changes; no animation loop or new engine render pass is used. Fullscreen fills
+the window independently of the embedded viewer dimensions.
