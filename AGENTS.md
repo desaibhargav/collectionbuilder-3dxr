@@ -42,7 +42,7 @@ CollectionBuilder-CSV is a Jekyll-based framework for building digital collectio
 - `_plugins/cb_page_gen.rb` generates item pages from the metadata CSV at build time
 - Never create `.html` files in `items/`
 - The `display_template` column in the metadata CSV selects the layout
-- Valid values: `image`, `video`, `pdf`, `audio`, `record`, `compound_object`, `panorama`, `multiple` (no `item/` prefix)
+- Built-in values: `image`, `video`, `pdf`, `audio`, `record`, `compound_object`, `panorama`, `multiple` (no `item/` prefix). This extension also supplies `3dxr` via `_layouts/item/3dxr.html`; the existing generator discovers that layout without modification.
 
 **Bootstrap 5**
 - This project uses Bootstrap 5

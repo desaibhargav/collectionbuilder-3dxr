@@ -6,6 +6,9 @@ precompiled React/PlayCanvas viewer. It is not an official CollectionBuilder rel
 No API, database, derivative-processing service or Node installation is required
 for ordinary website builds.
 
+See the [architecture review](3dxr-architecture-review.md) for how the extension
+follows `HUMANS.md` and `AGENTS.md`, including its deliberate costs and open gaps.
+
 ## Curator workflow
 
 1. Supply prepared **public derivatives**, never preservation masters.
