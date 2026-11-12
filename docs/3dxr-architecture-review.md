@@ -49,6 +49,27 @@ that path; the presence of new templates is not itself a violation.
   program's MIT-code/CC-SA-content requirement needs explicit resolution; this
   review does not relicense code or establish new rights to sample objects.
 
+## Programming Historian tutorial comparison
+
+Additional review: 2026-11-12, against Jennifer Isasi's
+[Building a Digital Exhibition with CollectionBuilder and the Internet Archive](https://programminghistorian.org/en/lessons/digital-exhibition-collectionbuilder).
+
+The lesson uses CB-GH; this template uses CB-CSV. Its `filename` examples should
+not replace our inherited `object_location` field, and its branch-based Pages
+instructions should not replace our GitHub Actions workflow. Collection metadata
+and config CSVs remain under `_data/`, identity under `_config.yml`, authored
+content under `pages/`, templates under `_layouts/` and `_includes/`, and styles
+under `_sass/`. Metadata labels, search, browsing and navigation retain their
+respective config CSVs. Dates use ISO notation, subjects use semicolons and map
+records supply numeric coordinates. Referenced legacy demo CSVs remain intact.
+
+The custom home layout replaces the lesson's infographic arrangement. Its hero
+uses site title/description; the gallery uses a native feature include. `_viewer/`
+and the precompiled runtime extend the tutorial's scope rather than requiring
+curators to edit renderer code. The About page's stale Idaho text and nonexistent
+demo image references were replaced with this collection's description and an
+existing sample image.
+
 ## Future changes
 
 Keep framework architecture rules in `AGENTS.md`, as `HUMANS.md` requests; do not

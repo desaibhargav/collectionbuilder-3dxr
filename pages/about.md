@@ -5,7 +5,7 @@ permalink: /about.html
 # include CollectionBuilder info at bottom
 credits: true
 # featured-image value can be one objectid for a photo object in this collection, a relative path to an image in this project, or a full url to any image. If left blank, no featured image will appear at top of About page.
-about-featured-image: demo_031
+about-featured-image: scattering-skull
 # set background-position for featured image, "center", "top", "bottom"
 position: bottom
 # major heading to display over featured image
@@ -18,22 +18,32 @@ padding: 6em
 # Look in _includes/feature for options to easily add features to the page
 ---
 
-## About CollectionBuilder CSV
+## About this demonstration
 
-This demo collection features items from the University of Idaho Library's [Digital Collections](https://www.lib.uidaho.edu/digital/), and is build using [CollectionBuilder-CSV](https://github.com/CollectionBuilder/collectionbuilder-csv).
+This independent template extends [CollectionBuilder-CSV](https://github.com/CollectionBuilder/collectionbuilder-csv)
+with a PlayCanvas viewer for meshes and Gaussian splats. CollectionBuilder supplies
+the metadata, browsing, search, maps, timeline and static page generation. On supported
+devices, the viewer also offers immersive AR and VR over HTTPS.
 
-CollectionBuilder-CSV is a "Stand Alone" template for creating digital collection and exhibit websites using Jekyll, given:
+The collection contains two prepared public derivatives: Scattering Skull by
+Vladimir Petkovic, from the Khronos sample collection, and Sakura Garden by
+WakuFactory. Attribution and rights are recorded on their item pages; preparation
+and source notes are in the repository's `objects/3dxr-sources.md`.
 
-- a CSV of collection metadata
-- a folder of images, PDFs, audio, or video files
+The Indiana University Bloomington locations and November 7, 2026 timestamps are
+demonstration metadata, not the objects' capture locations or creation dates.
+They show how CollectionBuilder's geographic and temporal browsing works.
 
-Driven by your collection metadata, the template generates engaging visualizations to browse and explore your objects.
-The resulting static site can be hosted on any basic web server.
+## Using the template
 
-[CollectionBuilder](https://github.com/CollectionBuilder/) is an set of open source tools for creating digital collection and exhibit websites that are driven by metadata and powered by modern static web technology.
-See [CB Docs](https://collectionbuilder.github.io/cb-docs/) for detailed information.
+Supply prepared public GLB or SOG derivatives, thumbnails and a metadata CSV.
+The included GitHub Actions workflow builds Jekyll and publishes the static site.
+No processing service or database is required. Viewer Save actions retain edits
+only for the current viewing session; they do not change the published objects.
 
-{% include feature/image.html objectid="demo_001" width="75" %} 
+The repository README and `docs/3dxr.md` explain setup and supported features.
+Replace this demonstration text with your own collection's purpose, curators,
+credits and provenance when adapting the template. See [CB Docs](https://collectionbuilder.github.io/cb-docs/)
+for the underlying CollectionBuilder conventions.
 
-<!-- IMPORTANT!!! DELETE this comment and the include below when you are finished editing this page for your collection. The include below introduces about page features. They will show up on your collection's about page until you delete it.  -->
-{% include cb/about_the_about.md %} 
+{% include feature/image.html objectid="scattering-skull" width="75" %}
