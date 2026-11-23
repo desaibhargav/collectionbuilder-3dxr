@@ -56,7 +56,7 @@ async function surfacePoints(h) {
 }
 try {
     await page.goto(`${base}/`);
-    assert.match(await page.title(), /3D \/ XR Collection/);
+    assert.match(await page.title(), /Virtual Heritage Collection/);
     await page.waitForSelector('#imageCarousel');
     assert.match(await page.$eval('#maincontent', node => node.textContent), /Top Subjects/);
     assert.equal(await page.$('[data-3dxr-viewer]'), null, 'Homepage should use native image previews');
@@ -73,6 +73,8 @@ try {
         await page.waitForSelector('.selection-toolbar button:not(:disabled)');
         await page.waitForSelector('#metadata.col-md-10');
         assert.match(await page.$eval('#maincontent h2', node => node.textContent), /Item Info/);
+        assert.equal(await page.$eval('#maincontent .my-0.h5.small', node => node.textContent.trim()),
+            id === 'scattering-skull' ? 'MESH' : 'SPLAT');
         await settle();
         const h = await handle();
         assert.equal(await page.$('.viewer-error'), null);

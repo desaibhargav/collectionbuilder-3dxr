@@ -163,6 +163,8 @@ For questions about CollectionBuilder framework itself, the user can consult the
 
 - Keep CollectionBuilder metadata/search/browse logic authoritative. The one `3dxr`
   item layout delegates rendering and editing to the precompiled shared viewer.
+  `mesh` and `splat` are label-only layout aliases inheriting `3dxr`; use them
+  for asset-specific native headings without changing CB's item-page base.
 - Curators need only Jekyll. `_viewer/` is excluded developer source; do not add
   Node compilation, derivative processing, databases or API services to routine
   website publication. The developer build must remain reproducible.

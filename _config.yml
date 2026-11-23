@@ -18,7 +18,7 @@ source-code: https://github.com/desaibhargav/collectionbuilder-3dxr
 # SITE SETTINGS
 #
 # title of site appears in banner
-title: 3D / XR Collection
+title: Virtual Heritage Collection
 # tagline, a short phrase that will appear throughout the site in the top banner
 tagline: Meshes and Gaussian splats, on the web and in your space
 # description appears in meta tags and other locations
@@ -50,7 +50,7 @@ metadata: 3dxr-metadata
 #
 # Enter name and link for your organization (replacing the name and links below)
 # These values will be used in attribution and data
-organization-name: "3D / XR Collection"
+organization-name: "Virtual Heritage Collection"
 organization-link: https://github.com/desaibhargav/collectionbuilder-3dxr
 # Add logo image links if you would like them to appear in banner and footer. Delete or leave blank to remove logos.
 organization-logo-banner:

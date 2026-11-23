@@ -37,7 +37,7 @@ rights. `type` describes the object; it does not select the rendering engine.
 
 | Field | Meaning |
 | --- | --- |
-| `display_template` | `3dxr`, one layout shared by meshes and splats |
+| `display_template` | `mesh` or `splat`: label-only layouts inheriting the shared `3dxr` viewer layout; `3dxr` remains supported for existing records |
 | `viewer_type` | `mesh` or `splat` |
 | `object_location` | Public GLB, SOG `meta.json`/`.sog`, or native `lod-meta.json` |
 | `viewer_lod` | Optional: our streamed-splat edit-correspondence descriptor |
