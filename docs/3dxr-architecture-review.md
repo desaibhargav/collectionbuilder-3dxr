@@ -15,8 +15,8 @@ that path; the presence of new templates is not itself a violation.
 | --- | --- |
 | Prefer CSV/YAML for collection configuration | Identity, metadata pointer, map settings and displayed fields remain in `_config.yml`, `_data/theme.yml` and config CSVs. |
 | Generate items from metadata | Existing `_plugins/cb_page_gen.rb` is unchanged; `display_template: 3dxr` resolves to the new layout. No item pages are hand-authored. |
-| Retain native metadata and navigation | The new item layout composes existing breadcrumb, metadata, citation, rights and browse-button includes. Existing includes and browse/search configuration logic are unchanged. |
-| Use feature includes for authored content | The custom home layout uses the existing `feature/gallery.html`; its new hero is extension-specific markup. |
+| Retain native metadata and navigation | The viewer layout inherits unchanged `item/item-page-base`, including its title, metadata, citation, rights and navigation. |
+| Retain native collection presentation | The homepage uses unchanged `home-infographic`; browse uses native cards without viewer-specific card styling. |
 | Keep custom styling in `_sass/_custom.scss` | Base styles are unchanged. Viewer styles are scoped under `.cb-viewer`; collection presentation rules use extension classes or the existing browse container. |
 | Use extension hooks | Item JavaScript is loaded through the existing `custom-foot` hook. Public paths use `relative_url`. |
 | Keep normal publication simple | The committed bundle lets the Pages Action run Jekyll without Node, a database, an API or geometry processing. |
@@ -28,7 +28,7 @@ that path; the presence of new templates is not itself a violation.
 - React/PlayCanvas adds considerably more source and browser code than a normal
   CollectionBuilder image viewer. It is confined to the optional 3D display type;
   galleries use thumbnails rather than live 3D canvases. This is a specialized
-  template, not a claim that every CollectionBuilder collection needs these tools.
+  viewer extension, not a claim that every CollectionBuilder collection needs these tools.
 - Maintainers need Node 24 to change the viewer. Curators do not. Source and
   compiled output must be updated together; the current Pages workflow does not
   detect stale bundles. Portal-to-template synchronization is not automated.
@@ -63,12 +63,18 @@ under `_sass/`. Metadata labels, search, browsing and navigation retain their
 respective config CSVs. Dates use ISO notation, subjects use semicolons and map
 records supply numeric coordinates. Referenced legacy demo CSVs remain intact.
 
-The custom home layout replaces the lesson's infographic arrangement. Its hero
-uses site title/description; the gallery uses a native feature include. `_viewer/`
+The homepage uses the native infographic arrangement. `_viewer/`
 and the precompiled runtime extend the tutorial's scope rather than requiring
 curators to edit renderer code. The About page's stale Idaho text and nonexistent
 demo image references were replaced with this collection's description and an
 existing sample image.
+
+Add-on alignment update, 2026-11-22: removed the custom homepage and global browse
+card overrides, and changed the viewer item layout to inherit CB's native item
+base. Sample metadata and branding remain normal demo collection configuration.
+This matches a stock CB-CSV presentation with the viewer added; packaging a
+standalone distribution and verifying installation into a fresh project remain
+separate follow-up work.
 
 ## Future changes
 

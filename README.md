@@ -1,9 +1,11 @@
-# CollectionBuilder 3D / XR
+# Virtual Heritage Viewer for CollectionBuilder-CSV
 
-An independent CollectionBuilder-CSV-based template for mesh and Gaussian-splat
-collections, with the tools and immersive AR/VR while CollectionBuilder supplies metadata, browsing, search and page
-generation. Prepared public derivatives are the inputs; asset processing is outside
-this repository.
+An independent viewer extension for meshes and Gaussian splats, with inspection
+tools and immersive AR/VR. This repository demonstrates the viewer installed in
+CollectionBuilder-CSV, using its standard homepage, browse cards and item-page
+base. CollectionBuilder supplies metadata, browsing, search and page generation.
+Prepared public derivatives are the inputs; asset processing is outside this
+repository. A standalone copy-in add-on distribution is not yet packaged.
 
 ## Publish your collection
 

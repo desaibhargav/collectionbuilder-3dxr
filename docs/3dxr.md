@@ -1,6 +1,6 @@
-# 3D / XR template
+# Virtual Heritage Viewer integration
 
-This independent CollectionBuilder-based template combines CollectionBuilder's
+This independent viewer extension combines CollectionBuilder's
 metadata generation, browsing, facets, search and rights presentation with a
 precompiled React/PlayCanvas viewer. It is not an official CollectionBuilder release.
 No API, database, derivative-processing service or Node installation is required
@@ -75,7 +75,7 @@ require network access; a fully offline XR package is not claimed.
 ## Integration boundaries
 
 - `_plugins/cb_page_gen.rb` remains unchanged: `display_template` chooses the layout.
-- `_layouts/item/3dxr.html` composes standard metadata/rights/navigation includes.
+- `_layouts/item/3dxr.html` inherits the unchanged native `item/item-page-base`.
 - `_includes/item/playcanvas-viewer.html` passes escaped public metadata attributes.
 - `_includes/js/3dxr.html` loads the bundle through documented `custom-foot`.
 - `_sass/_custom.scss` owns scoped viewer and collection presentation styles.
@@ -165,10 +165,21 @@ Replace/remove the demo fields and labels when supplying real collection metadat
 
 ## Item layout
 
-Items use the original mesh/splat portal's centered 1320px page with responsive
-gutters (1224px viewer width on large screens). The viewer retains a 9:5 ratio
+Items use CollectionBuilder's native `item/item-page-base` column, title,
+metadata, attribution, rights and navigation. The viewer retains a 9:5 ratio
 and shrinks when needed to fit the space below the actual collection header and
 item heading. Metadata remains below the viewer in the centered page column.
 Native ResizeObserver/viewport events update the available height only on layout
 changes; no animation loop or new engine render pass is used. Fullscreen fills
 the window independently of the embedded viewer dimensions.
+
+## Demonstration boundaries
+
+The homepage uses the unchanged native `home-infographic` layout, including its
+description, sample carousel, time range, subject/location links and data panels.
+Browse uses the native card view, search, facets and sorting without viewer-specific
+card styling. Identity, two sample records and geographic/date metadata are normal
+collection configuration, not required add-on files. Installing the viewer in
+another collection should preserve that collection's homepage, metadata and theme.
+The standalone copy-in distribution and fresh-project installation test remain
+follow-up work; this repository currently demonstrates the integration.

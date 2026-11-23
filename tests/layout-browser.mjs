@@ -39,8 +39,8 @@ try {
             assert(Math.abs(size.width / size.height - 1.8) < .01, 'Viewer lost 9:5 proportions');
             assert(Math.abs(size.left - (width-size.width)/2) < 2, 'Viewer is not centered');
             assert(!size.overflow, 'Horizontal overflow');
-            assert(size.width <= 1224.5, 'Viewer exceeds original portal width');
-            if (width === 2560) assert(Math.abs(size.width - 1224) < 1, 'Large-screen viewer should match original portal size');
+            const column = await page.$eval('[data-3dxr-viewer]', element => element.parentElement.clientWidth);
+            assert(size.width <= column + 1, 'Viewer exceeds the native item column');
             await page.screenshot({ path: `${output}/${asset}-${width}.png` });
             console.log('PASS', asset, `${width}×${height}`, size);
         }

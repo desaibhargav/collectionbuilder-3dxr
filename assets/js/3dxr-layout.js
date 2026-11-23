@@ -9,7 +9,8 @@ if (viewer) {
         viewer.style.setProperty("--cb-viewer-available-height", `${Math.max(0, viewportHeight - pageTop)}px`);
     };
     const observer = new ResizeObserver(updateSize);
-    const heading = document.querySelector(".cb-3dxr-heading");
+    // The item title comes from CB's unmodified item-page-base layout.
+    const heading = document.querySelector("#maincontent h2");
     if (heading) observer.observe(heading);
     // Observe the existing CollectionBuilder shell without replacing its includes.
     for (let sibling = document.querySelector("#maincontent")?.previousElementSibling;

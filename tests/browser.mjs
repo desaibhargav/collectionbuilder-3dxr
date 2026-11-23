@@ -57,6 +57,10 @@ async function surfacePoints(h) {
 try {
     await page.goto(`${base}/`);
     assert.match(await page.title(), /3D \/ XR Collection/);
+    await page.waitForSelector('#imageCarousel');
+    assert.match(await page.$eval('#maincontent', node => node.textContent), /Top Subjects/);
+    assert.equal(await page.$('[data-3dxr-viewer]'), null, 'Homepage should use native image previews');
+    assert(!requests.some(url => url.includes('/3dxr/runtime/')), 'Homepage loaded the 3D runtime');
     await page.goto(`${base}/browse.html`);
     await page.waitForSelector('#browseItems .card');
     assert.equal(await page.$$eval('#browseItems .card', cards => cards.length), 2);
@@ -67,6 +71,8 @@ try {
     for (const id of ['scattering-skull', 'sakura-garden']) {
         await page.goto(`${base}/items/${id}.html`);
         await page.waitForSelector('.selection-toolbar button:not(:disabled)');
+        await page.waitForSelector('#metadata.col-md-10');
+        assert.match(await page.$eval('#maincontent h2', node => node.textContent), /Item Info/);
         await settle();
         const h = await handle();
         assert.equal(await page.$('.viewer-error'), null);

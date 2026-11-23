@@ -1,23 +1,7 @@
 ---
 # A single layout for both mesh and Gaussian-splat records.
-layout: default
-item-meta: true
+layout: item/item-page-base
 custom-foot: js/3dxr.html
 ---
-<div class="cb-3dxr-item">
-    <div class="cb-3dxr-heading">
-        {% include item/breadcrumbs.html %}
-        <h1 class="mb-4">{{ page.title | escape }}</h1>
-    </div>
-    {% include item/playcanvas-viewer.html %}
-    <section id="metadata" class="mt-4">
-        {% include item/metadata.html %}
-    </section>
-    <div class="row gy-3 mb-4">
-        <div class="col-md-6">{% include item/citation-box.html %}</div>
-        <div class="col-md-6">{% include item/rights-box.html %}</div>
-    </div>
-    {% if site.data.theme.browse-buttons == true %}
-        {% include item/browse-buttons.html %}
-    {% endif %}
-</div>
+{% comment %}The native base owns title, metadata, rights and navigation.{% endcomment %}
+{% include item/playcanvas-viewer.html %}
