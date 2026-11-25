@@ -23,8 +23,11 @@ seen by visitors. This directory is our extension's addition, not an upstream
 CollectionBuilder requirement. See the
 [publication and update procedure](../docs/3dxr.md#publication-and-viewer-updates)
 for the complete developer workflow and verification steps.
-Viewer styles are scoped under `.cb-viewer` in `_sass/_custom.scss` to follow
-CollectionBuilder's customization convention. Rebuild Jekyll after changing them.
+Viewer library styles are scoped under `.cb-viewer` in
+`_sass/_virtual-heritage-viewer.scss`. Jekyll compiles their separate stylesheet
+through `assets/lib/3dxr/viewer.scss`, preserving an adopter's `_custom.scss`.
+Rebuild Jekyll after style changes, and regenerate the copy-in ZIP with
+`python3 scripts/package-addon.py` from the repository root after any add-on change.
 
 ## Provenance and changes
 

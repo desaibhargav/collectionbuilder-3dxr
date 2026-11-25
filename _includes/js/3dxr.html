@@ -1,3 +1,4 @@
-{% comment %}Only 3D item pages load the precompiled engine and tools.{% endcomment %}
+{% comment %}Only pages embedding the viewer load these resources.{% endcomment %}
+<link rel="stylesheet" href="{{ '/assets/lib/3dxr/viewer.css' | relative_url }}">
 <script type="module" src="{{ '/assets/js/3dxr-layout.js' | relative_url }}"></script>
 <script type="module" src="{{ '/assets/lib/3dxr/runtime/viewer.js' | relative_url }}"></script>

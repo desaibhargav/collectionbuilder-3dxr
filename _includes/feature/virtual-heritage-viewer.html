@@ -1,0 +1,19 @@
+{% comment %}
+    Embed one interactive viewer on a content page using its metadata objectid.
+    Example: {% include feature/virtual-heritage-viewer.html objectid="scattering-skull" %}
+    Optional: caption=false hides the caption. One viewer per page is supported.
+{% endcomment %}
+{% assign heritage_item = site.data[site.metadata] | where: "objectid", include.objectid | first %}
+{% if heritage_item %}
+<figure class="my-4">
+    {% include item/playcanvas-viewer.html item=heritage_item embedded=true %}
+    {% unless include.caption == false %}
+    <figcaption class="text-center mt-2">
+        <a href="{{ '/items/' | append: heritage_item.objectid | append: '.html' | relative_url }}">{{ include.caption | default: heritage_item.title | escape }}</a>
+    </figcaption>
+    {% endunless %}
+</figure>
+{% include js/3dxr.html %}
+{% else %}
+<p role="alert">Viewer item not found. Check the objectid in the viewer include.</p>
+{% endif %}

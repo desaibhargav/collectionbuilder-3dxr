@@ -11,6 +11,9 @@ follows `HUMANS.md` and `AGENTS.md`, including its deliberate costs and open gap
 
 ## Curator workflow
 
+For an existing collection, use the [copy-in add-on instructions](addon-installation.md).
+The steps below describe adapting the full demonstration repository instead.
+
 1. Supply prepared **public derivatives**, never preservation masters.
 2. Put files under `objects/`, or host them at HTTPS URLs allowing cross-origin
    requests. Preserve the complete directory structure of streamed SOG bundles.
@@ -78,7 +81,8 @@ require network access; a fully offline XR package is not claimed.
 - `_layouts/item/3dxr.html` inherits the unchanged native `item/item-page-base`.
 - `_includes/item/playcanvas-viewer.html` passes escaped public metadata attributes.
 - `_includes/js/3dxr.html` loads the bundle through documented `custom-foot`.
-- `_sass/_custom.scss` owns scoped viewer and collection presentation styles.
+- `_sass/_virtual-heritage-viewer.scss` owns scoped viewer library styles;
+  `assets/lib/3dxr/viewer.scss` compiles them without modifying `_custom.scss`.
 - CollectionBuilder's existing browse/search scripts and config CSVs remain intact.
 - `_viewer/` contains excluded developer source; see its README for rebuilding.
 
@@ -97,7 +101,8 @@ the developer build before publication.
 
 `_viewer/` is our extension's developer-source convention, not a directory required
 by CollectionBuilder. It is explicitly excluded in `_config.yml`. Compiled output
-belongs in `assets/lib/3dxr/runtime/`; scoped styles belong in `_sass/_custom.scss`.
+belongs in `assets/lib/3dxr/runtime/`; scoped library styles belong in
+`_sass/_virtual-heritage-viewer.scss`. Site-specific overrides still use `_custom.scss`.
 CollectionBuilder's `CONTRIBUTING.md` directs project technical documentation to
 `docs/`, so this document explains the integration and
 [`_viewer/README.md`](../_viewer/README.md) supplies the build instructions.
@@ -181,5 +186,8 @@ Browse uses the native card view, search, facets and sorting without viewer-spec
 card styling. Identity, two sample records and geographic/date metadata are normal
 collection configuration, not required add-on files. Installing the viewer in
 another collection should preserve that collection's homepage, metadata and theme.
-The standalone copy-in distribution and fresh-project installation test remain
-follow-up work; this repository currently demonstrates the integration.
+The copy-in distribution is `assets/downloads/virtual-heritage-viewer.zip`, built
+by `scripts/package-addon.py` from an explicit file allowlist. It excludes demo
+configuration, sample geometry, developer source and processing code. The ZIP's
+README is generated from `docs/addon-installation.md`. Keep this repository as
+the maintained source and demonstration; a separate add-on repository is optional.

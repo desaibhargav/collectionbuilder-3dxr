@@ -63,10 +63,10 @@ try {
     assert(!requests.some(url => url.includes('/3dxr/runtime/')), 'Homepage loaded the 3D runtime');
     await page.goto(`${base}/browse.html`);
     await page.waitForSelector('#browseItems .card');
-    assert.equal(await page.$$eval('#browseItems .card', cards => cards.length), 2);
+    assert.equal(await page.$$eval('#browseItems .card', cards => cards.length), Number(process.env.TEST_COLLECTION_SIZE || 2));
     await page.locator('#filterTextBox').fill('Skull');
     await page.keyboard.press('Enter'); await settle();
-    assert.equal(await page.$$eval('#browseItems .card', cards => cards.length), 1, 'CB filter failed');
+    assert.equal(await page.$$eval('#browseItems .card', cards => cards.length), Number(process.env.TEST_FILTERED_SIZE || 1), 'CB filter failed');
     await page.screenshot({ path: `${output}/browse.png`, fullPage: true });
     for (const id of ['scattering-skull', 'sakura-garden']) {
         await page.goto(`${base}/items/${id}.html`);

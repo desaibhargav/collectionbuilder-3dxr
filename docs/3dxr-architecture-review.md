@@ -17,7 +17,7 @@ that path; the presence of new templates is not itself a violation.
 | Generate items from metadata | Existing `_plugins/cb_page_gen.rb` is unchanged; `display_template: 3dxr` resolves to the new layout. No item pages are hand-authored. |
 | Retain native metadata and navigation | The viewer layout inherits unchanged `item/item-page-base`, including its title, metadata, citation, rights and navigation. |
 | Retain native collection presentation | The homepage uses unchanged `home-infographic`; browse uses native cards without viewer-specific card styling. |
-| Keep custom styling in `_sass/_custom.scss` | Base styles are unchanged. Viewer styles are scoped under `.cb-viewer`; collection presentation rules use extension classes or the existing browse container. |
+| Preserve custom styling | Base styles and the inherited `_custom.scss` are unchanged. Scoped add-on library styles use `_sass/_virtual-heritage-viewer.scss` and a separate Jekyll stylesheet entry, preserving adopters' existing overrides. |
 | Use extension hooks | Item JavaScript is loaded through the existing `custom-foot` hook. Public paths use `relative_url`. |
 | Keep normal publication simple | The committed bundle lets the Pages Action run Jekyll without Node, a database, an API or geometry processing. |
 | Keep technical documentation under `docs/` | `docs/3dxr.md` describes curator inputs and integration; `_viewer/README.md` documents the reproducible developer build. |
@@ -72,9 +72,9 @@ existing sample image.
 Add-on alignment update, 2026-11-22: removed the custom homepage and global browse
 card overrides, and changed the viewer item layout to inherit CB's native item
 base. Sample metadata and branding remain normal demo collection configuration.
-This matches a stock CB-CSV presentation with the viewer added; packaging a
-standalone distribution and verifying installation into a fresh project remain
-separate follow-up work.
+This matches a stock CB-CSV presentation with the viewer added. The copy-in ZIP
+now contains only viewer-specific additions and bundled licenses, plus its README.
+See `addon-installation.md` for installation, content-page embedding and updates.
 
 ## Future changes
 

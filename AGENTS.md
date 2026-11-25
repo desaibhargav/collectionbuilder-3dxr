@@ -168,6 +168,11 @@ For questions about CollectionBuilder framework itself, the user can consult the
 - Curators need only Jekyll. `_viewer/` is excluded developer source; do not add
   Node compilation, derivative processing, databases or API services to routine
   website publication. The developer build must remain reproducible.
+- The installable viewer's scoped library styles live in `_sass/_virtual-heritage-viewer.scss`,
+  compiled by `assets/lib/3dxr/viewer.scss`. This add-on-specific exception keeps
+  adopters' `_custom.scss` intact; site-specific overrides still belong there.
+- Package only the allowlisted add-on files using `scripts/package-addon.py`.
+  Do not include demo configuration, developer source, masters or processing code.
 - Publish only the explicitly approved public sample derivatives. Never copy
   preservation masters, authorization manifests, credentials or proprietary assets.
 - Preserve shared mesh/splat/desktop/XR behavior, draft discard, history and

@@ -19,6 +19,10 @@ jobs:
           bundler-cache: true
       - uses: actions/configure-pages@v5
         id: pages
+      # Verify the downloadable package matches its allowlisted source files.
+      - run: |
+          python3 scripts/package-addon.py --output /tmp/virtual-heritage-viewer.zip
+          cmp assets/downloads/virtual-heritage-viewer.zip /tmp/virtual-heritage-viewer.zip
       # Viewer resources are precompiled; no Node or asset-processing stage.
       - run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:

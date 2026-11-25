@@ -1,7 +1,8 @@
 // Jekyll's header and title can change height with wrapping, fonts or navigation.
 // Measure their actual space, rather than guessing a fixed header height in CSS.
 // This runs on layout/viewport changes only; there is no animation-frame loop.
-const viewer = document.querySelector("[data-3dxr-viewer]");
+// Content-page embeds keep their natural 9:5 size even below the first screen.
+const viewer = document.querySelector("[data-3dxr-fit]");
 if (viewer) {
     const updateSize = () => {
         const pageTop = viewer.getBoundingClientRect().top + window.scrollY;
